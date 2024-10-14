@@ -45,6 +45,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'treebeard',
     'channels',
+
+
+    # CUSTOM APP
+    'apps.catalog',
 ]
 
 MIDDLEWARE = [
