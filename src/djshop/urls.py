@@ -15,8 +15,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
+doc_patterns = [
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+]
+
+admin_urls = [
+    path('api/admin/catalog/', include(('apps.catalog.urls.admin', 'apps.admin'), namespace='catalog-admin')),
+]
+
+front_urls = [
+    path('api/front/catalog/', include(('apps.catalog.urls.front', 'apps.admin'), namespace='catalog-front')),
+]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += admin_urls + front_urls + doc_patterns
