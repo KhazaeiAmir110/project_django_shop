@@ -4,6 +4,6 @@ from apps.catalog.views.admin import CategoryViewSet
 
 router = SimpleRouter()
 
-router.register('categories', CategoryViewSet)
+router.register('categories', CategoryViewSet, basename='category')
 
 urlpatterns = [] + router.urls

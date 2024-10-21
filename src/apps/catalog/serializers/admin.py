@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
@@ -21,3 +22,18 @@ class CreateCategoryNodeSerializer(serializers.ModelSerializer):
             instance = parent_node.add_child(**validated_data)
 
         return instance
+
+
+class CategoryTreeSerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = ('id', 'title', 'description', 'public', 'slug', 'children')
+
+    def get_children(self, obj):
+        return CategoryTreeSerializer(obj.get_children(), many=True).data
+
+
+CategoryTreeSerializer.get_children = (extend_schema_field(serializers.ListField(child=CategoryTreeSerializer()))
+                                       (CategoryTreeSerializer.get_children))
