@@ -1,7 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.exceptions import NotAcceptable
 
 from apps.catalog.models import Category
-from apps.catalog.serializers.admin import CreateCategoryNodeSerializer, CategoryTreeSerializer
+from apps.catalog.serializers.admin import CreateCategoryNodeSerializer, CategoryTreeSerializer, CategoryNodeSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -15,7 +16,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
             return Category.objects.all()
 
     def get_serializer_class(self):
-        if self.action == 'list':
-            return CategoryTreeSerializer
-        else:
-            return CreateCategoryNodeSerializer
+        match self.action:
+            case 'list':
+                return CategoryTreeSerializer
+            case 'create':
+                return CreateCategoryNodeSerializer
+            case 'retrieve':
+                return CategoryNodeSerializer
+            case _:
+                raise NotAcceptable()
+
