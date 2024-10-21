@@ -2,7 +2,10 @@ from rest_framework import viewsets
 from rest_framework.exceptions import NotAcceptable
 
 from apps.catalog.models import Category
-from apps.catalog.serializers.admin import CreateCategoryNodeSerializer, CategoryTreeSerializer, CategoryNodeSerializer
+from apps.catalog.serializers.admin import (
+    CreateCategoryNodeSerializer, CategoryTreeSerializer, CategoryNodeSerializer, \
+    CategoryModificationSerializer
+)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -23,6 +26,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
                 return CreateCategoryNodeSerializer
             case 'retrieve':
                 return CategoryNodeSerializer
+            case 'update' | 'partial_update' | 'destroy':
+                return CategoryModificationSerializer
             case _:
                 raise NotAcceptable()
 
