@@ -5,5 +5,5 @@ from apps.catalog.models import Category
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Category.objects.all()
+    queryset = Category.objects.public()
     serializer_class = CategorySerializer
