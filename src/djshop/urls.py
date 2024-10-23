@@ -37,3 +37,8 @@ urlpatterns = [
 ]
 
 urlpatterns += admin_urls + front_urls + doc_patterns
+
+# Admin Site
+admin.sites.AdminSite.site_header = "Djshop"
+admin.sites.AdminSite.site_title = "Djshop"
+admin.sites.AdminSite.index_title = "Djshop"
