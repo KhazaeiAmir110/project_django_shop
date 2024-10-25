@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # CUSTOM APP
     'apps.catalog',
+    'apps.media',
 ]
 
 MIDDLEWARE = [
