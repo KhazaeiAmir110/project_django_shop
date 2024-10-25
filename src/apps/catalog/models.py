@@ -54,6 +54,7 @@ class ProductClass(models.Model):
 
     options = models.ManyToManyField('Option', blank=True)
 
+    @property
     def has_attribute(self):
         return self.attributes.exists()
 
@@ -95,7 +96,7 @@ class Option(models.Model):
         option = 'option'
         multi_option = 'multi_option'
 
-    title = models.CharField(max_length=100, db_index=True)
+    title = models.CharField(max_length=100)
     type = models.CharField(max_length=16, choices=OptionTypeChoice.choices, default=OptionTypeChoice.text)
     option_group = models.ForeignKey(OptionGroup, on_delete=models.PROTECT, null=True, blank=True)
     required = models.BooleanField(default=False)
@@ -140,8 +141,9 @@ class ProductAttributeValue(models.Model):
     value_text = models.TextField(null=True, blank=True)
     value_integer = models.IntegerField(null=True, blank=True)
     value_float = models.FloatField(null=True, blank=True)
-    value_option = models.ForeignKey(OptionGroupValue, on_delete=models.PROTECT)
-    value_multi_option = models.ManyToManyField(OptionGroupValue)
+    value_option = models.ForeignKey(OptionGroupValue, on_delete=models.PROTECT, null=True, blank=True)
+    value_multi_option = models.ManyToManyField(OptionGroupValue, blank=True,
+                                                related_name='multi_valued_attribute_value')
 
     class Meta:
         verbose_name = "AttributeValue"
@@ -151,7 +153,7 @@ class ProductAttributeValue(models.Model):
 
 class ProductRecommendation(models.Model):
     primary = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='primary_recommendation')
-    recommendation = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='recommendations')
+    recommendation = models.ForeignKey(Product, on_delete=models.CASCADE)
     rank = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
