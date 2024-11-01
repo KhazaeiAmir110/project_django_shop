@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # CUSTOM APP
     'apps.catalog',
     'apps.media',
+    'apps.analytics',
 ]
 
 MIDDLEWARE = [
