@@ -129,6 +129,7 @@ class Product(models.Model):
                                       related_name='products')
     attributes = models.ManyToManyField(ProductAttribute, through='ProductAttributeValue')
     recommended_products = models.ManyToManyField('Product', through='ProductRecommendation', blank=True)
+    categories = models.ManyToManyField(Category, related_name='categories')
 
     @property
     def main_image(self):
