@@ -3,6 +3,7 @@ from treebeard.mp_tree import MP_Node
 
 from apps.catalog.managers import CategoryQuerySet
 from apps.core.db.fields import UpperCaseCharField
+from apps.core.db.models import AudiTableModel
 
 
 class Category(MP_Node):
@@ -44,7 +45,7 @@ class OptionGroupValue(models.Model):
         verbose_name_plural = "Option Group Values"
 
 
-class ProductClass(models.Model):
+class ProductClass(AudiTableModel):
     title = models.CharField(max_length=100, db_index=True)
     description = models.CharField(max_length=100, null=True, blank=True)
     slug = models.SlugField(unique=True, allow_unicode=True)
